@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+
+.visual-keyboard {
+  margin: 0 auto;
+}
+
+button {
+  width: 50px;
+  height: 50px;
+  margin: 20px 20px;
+}
+
+.key-button {
+  background-color: antiquewhite;
+}

@@ -1,0 +1,155 @@
+{
+    "Backquote": {
+        "type": "char",
+        "element": {
+            "mainValue": "`",
+            "mainShiftValue": "~",
+            "secondValue": "ё",
+            "secondShiftValue": "Ё"
+        }
+    },
+    "Digit1": {
+        "type": "num",
+        "element": {
+            "mainValue": "1",
+            "mainShiftValue": "!",
+            "secondValue": "1",
+            "secondShiftValue": "!"
+        }
+    },
+    "Digit2": {
+        "type": "num",
+        "element": {
+            "mainValue": "2",
+            "mainShiftValue": "@",
+            "secondValue": "2",
+            "secondShiftValue": "\""
+        }
+    },
+    "Digit3": {
+        "type": "num",
+        "element": {
+            "mainValue": "3",
+            "mainShiftValue": "#",
+            "secondValue": "3",
+            "secondShiftValue": "№"
+        }
+    },
+    "Digit4": {
+        "type": "num",
+        "element": {
+            "mainValue": "4",
+            "mainShiftValue": "$",
+            "secondValue": "4",
+            "secondShiftValue": ";"
+        }
+    },
+    "Digit5": {
+        "type": "num",
+        "element": {
+            "mainValue": "5",
+            "mainShiftValue": "%",
+            "secondValue": "5",
+            "secondShiftValue": "%"
+        }
+    },
+    "Digit6": {
+        "type": "num",
+        "element": {
+            "mainValue": "6",
+            "mainShiftValue": "^",
+            "secondValue": "6",
+            "secondShiftValue": ":"
+        }
+    },
+    "Digit7": {
+        "type": "num",
+        "element": {
+            "mainValue": "7",
+            "mainShiftValue": "&",
+            "secondValue": "7",
+            "secondShiftValue": "?"
+        }
+    },
+    "Digit8": {
+        "type": "num",
+        "element": {
+            "mainValue": "8",
+            "mainShiftValue": "*",
+            "secondValue": "8",
+            "secondShiftValue": "*"
+        }
+    },
+    "Digit9": {
+        "type": "num",
+        "element": {
+            "mainValue": "9",
+            "mainShiftValue": "(",
+            "secondValue": "9",
+            "secondShiftValue": "("
+        }
+    },
+    "Digit0": {
+        "type": "num",
+        "element": {
+            "mainValue": "0",
+            "mainShiftValue": ")",
+            "secondValue": "0",
+            "secondShiftValue": ")"
+        }
+    },
+
+    "Minus": {
+        "type": "num",
+        "element": {
+            "mainValue": "-",
+            "mainShiftValue": "_",
+            "secondValue": "-",
+            "secondShiftValue": "_"
+        }
+    },
+
+    "Equal": {
+        "type": "num",
+        "element": {
+            "mainValue": "=",
+            "mainShiftValue": "+",
+            "secondValue": "=",
+            "secondShiftValue": "+"
+        }
+    },
+    
+    "Backspace": {
+        "type": "func",
+        "element": {
+            "mainValue": "delete"
+        }
+    },
+
+    "Tab": {
+        "type": "func",
+        "element": {
+            "mainValue": "tab"
+        }
+    },
+
+    "KeyQ": {
+        "type": "char",
+        "element": {
+            "mainValue": "q",
+            "mainShiftValue": "Q",
+            "secondValue": "й",
+            "secondShiftValue": "Й"
+        }
+    },
+    "KeyW": {
+        "type": "char",
+        "element": {
+            "mainValue": "w",
+            "mainShiftValue": "W",
+            "secondValue": "ц",
+            "secondShiftValue": "Ц"
+        }
+    }
+    
+}
