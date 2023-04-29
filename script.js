@@ -4,29 +4,44 @@ let btnKeyboard3 = document.querySelector("#button3");
 
 let virtualKeyboard = document.querySelector('.visual-keyboard');
 
-const keyLayout = [
-  ["`", "ё"], ["1", "!"],  ["2", '"'],  ["3", "#"],  ["4", "$"],  ["5", "%"],  ["6", "^"],  ["7", "&"],  ["8", "*"],  ["9", "("],  ["0", ")"],  ["backspace"],
-  ["tab"],  ["q", "й"], ["w", "ц"], ["e", "у"], ["r", "к"], ["t", "е"], ["y", "н"], ["u", "г"], ["i", "ш"], ["o", "щ"], ["p", "з"], ["[", "х"], ["]", "ъ"],
-  ["caps"],  ["a", "ф"], ["s", "ы"], ["d", "в"], ["f", "а"], ["g", "п"], ["h", "р"], ["j", "о"], ["k", "л"], ["l", "д"], [";", "ж"], ["'", "э"], ["enter"],
-  ["shift"],  ["z", "я"], ["x", "ч"], ["c", "с"], ["v", "м"], ["b", "и"], ["n", "т"], ["m", "ь"], [",", "б"], [".", "ю"], ["?", "."], ["up"], ["shift"],
-  ["space"],  ["left"], ["down"], ["right"], ["ctrl"]
-];
+// const keyLayout = [
+//   ["`", "ё"], ["1", "!"],  ["2", '"'],  ["3", "#"],  ["4", "$"],  ["5", "%"],  ["6", "^"],  ["7", "&"],  ["8", "*"],  ["9", "("],  ["0", ")"],  ["backspace"],
+//   ["tab"],  ["q", "й"], ["w", "ц"], ["e", "у"], ["r", "к"], ["t", "е"], ["y", "н"], ["u", "г"], ["i", "ш"], ["o", "щ"], ["p", "з"], ["[", "х"], ["]", "ъ"],
+//   ["caps"],  ["a", "ф"], ["s", "ы"], ["d", "в"], ["f", "а"], ["g", "п"], ["h", "р"], ["j", "о"], ["k", "л"], ["l", "д"], [";", "ж"], ["'", "э"], ["enter"],
+//   ["shift"],  ["z", "я"], ["x", "ч"], ["c", "с"], ["v", "м"], ["b", "и"], ["n", "т"], ["m", "ь"], [",", "б"], [".", "ю"], ["?", "."], ["up"], ["shift"],
+//   ["space"],  ["left"], ["down"], ["right"], ["ctrl"]
+// ];
 
-let KEYS;
-fetch('/keys.json')
-  .then((response) => response.json())
-  .then((responseJSON) => { 
-    KEYS = responseJSON;
-    const keyBoard = new KeyBoard(virtualKeyboard);
-    keyBoard.init(KEYS);
-  });
 
 
 class KeyButton {
 
-    constructor(...args) {
-      this.mainLangValue = args[0];
-      this.secondLangValue = args[1];
+    constructor(type, en, ru, lang) {
+      this.type = type;
+      this.en = en;
+      this.ru = ru;
+      this.value = this.setBtnValue(lang).value;
+      this.shiftValue = this.setBtnValue(lang).shiftValue;
+    }
+
+    setBtnValue(lang) {
+      let result;
+      switch (lang) {
+        case 'en':
+          result = this.en;
+          break;
+        case 'ru':
+          result = this.ru;
+          break;
+        default:
+          throw new Error(`Can't recognize the language`);
+          break;
+      }
+      return result;
+    }
+
+    getSymbValue(){
+      return this.value;
     }
 }
 
@@ -35,8 +50,9 @@ class KeyBoard {
 
   constructor(elem) {
     this.elem = elem;
-    elem.onclick = this.onClick.bind(this);
-    this.keys = KEYS;
+    //elem.onclick = this.onClick.bind(this);
+    this.keysList = {};
+    this.language = 'en';
   }
 
   onClick(event){
@@ -46,138 +62,115 @@ class KeyBoard {
     }
   }
 
+ 
   init(obj) {
-    let count = 0;
-    // arrKeys.forEach(element => {
-    //   const keyBtn = document.createElement("button");
-    //   keyBtn.className = "key-button";
-    //   this.keys[count] = {type: 'char', element};
-    //   keyBtn.id = `${count++}`;
-    //   keyBtn.innerText = `${element[0]}`;
-     
-    //   this.elem.appendChild(keyBtn);
-    //   keyBtn.addEventListener('click', () => { console.log(element)});
-    // });
-
     for (let key in obj) {
-      const keyBtn = document.createElement("button");
-      keyBtn.className = "key-button";
-      keyBtn.id = `${key}`;
-      keyBtn.innerText = `${obj[key].element.mainValue}`;
-      this.elem.appendChild(keyBtn);
-      keyBtn.addEventListener('click', () => { console.log(obj[key].element.mainValue)});
+      //TODO: check local storage and get lang value; try catch and set default;
+      let lang = 'en';
+      let enSet = obj[key].element.en;
+      let ruSet = obj[key].element.ru == undefined ? obj[key].element.en : obj[key].element.ru;
+      let type = obj[key].type;
+      let keyButton = new KeyButton(type, enSet, ruSet, lang);
+      const htmlButton = this.createKeyButton(key, keyButton.value);
+      this.keysList[key] = keyButton;
+      this.elem.appendChild(htmlButton);
     }
 
-    return this.keys;
+    return this.keysList;
   }
 
+  createKeyButton(id, value) {
+    let htmlButton = document.createElement("button");
+    htmlButton.className = "key-button";
+    htmlButton.id = `${id}`;
+    htmlButton.innerText = `${value}`;
+    htmlButton.addEventListener('click', () => {
+      this.buttonHandler(htmlButton)
+    });
+    return htmlButton;
+  }
+  
+  changeLang() {
+    for (let k in this.keysList) {
+      let btn;
+      switch (this.language) {
+        case 'en':
+          btn = document.getElementById(k);
+          btn.innerText = ``;
+          try {   btn.innerText = `${this.keysList[k].ru.value}` } 
+          catch { btn.innerText = `${this.keysList[k].en.value}` }
+          break;
+
+        case 'ru':
+          btn = document.getElementById(k);
+          btn.innerText = ``;
+          try {   btn.innerText = `${this.keysList[k].en.value}` }
+          catch { btn.innerText = `${this.keysList[k].en.value}` }
+        default:
+          break;
+      }
+    }
+    this.language = this.language === 'en' ? 'ru' : 'en';
+  }
+
+  
+  buttonHandler(htmlButton){
+    if (`${htmlButton.id}` in this.keysList) {
+      console.log(`type = ${this.keysList[htmlButton.id].type} value = '${htmlButton.innerText}'`);
+    }
+  }
 }
 
-// let btnClass1 = new KeyButton(btnKeyboard1);
-// let btnClass2 = new KeyButton(btnKeyboard2);
-// let btnClass3 = new KeyButton(btnKeyboard3);
+let keyBoard;
+let KEYS;
+fetch('/keys.json')
+  .then((response) => response.json())
+  .then((responseJSON) => { 
+    KEYS = responseJSON;
+    keyBoard = new KeyBoard(virtualKeyboard);
+    console.log(JSON.stringify(keyBoard.init(KEYS), ' ', 4));
+  });
 
-// virtualKeyboard.onclick = function(event) {
-//   let element = event.target;
- 
-//   if (element.nodeName === "BUTTON") {
-//     //console.log("target = " + element.tagName + ", this=" + this.tagName);
-//     console.log(element.id);
-//   }
-   
-// };
 
-//console.log(JSON.stringify(keyBoard.init(keyLayout), " ", 4));
 
 // Phisycal Keyboard handler to special buttons
 let isShiftPressed = false;
 let isCtrlPressed = false;
 let isAltPressed = false;
 
-document.addEventListener('keydown', function(event) {
-
-  
-  switch (event.code) {
-    case "ShiftLeft":
-      if (!isShiftPressed){
-        console.log(`Shift has pressed! ${event.code}`);
-        isShiftPressed = true;
-      }
-      break;
-    case "ShiftRight":
-      if (!isShiftPressed){
-        console.log(`Shift has pressed! ${event.code}`);
-        isShiftPressed = true;
-      }
-      break;
-    case "ControlRight":
-      if (!isCtrlPressed) {
-        console.log(`Ctrl has pressed! ${event.code}`);
-        isCtrlPressed = true;
-      }
-      break;
-    case "ControlLeft":
-      if (!isCtrlPressed) {
-        console.log(`Ctrl has pressed! ${event.code}`);
-        isCtrlPressed = true;
-      }
-      break;
-    case "AltRight":
-      if (!isAltPressed) {
-        console.log(`Alt has pressed! ${event.code}`);
-        isAltPressed = true;
-      }
-      break;
-    case "AltLeft":
-      if (!isAltPressed) {
-        console.log(`Alt has pressed! ${event.code}`);
-        isAltPressed = true;
-      }
-    default:
-      break;
+document.addEventListener('keydown', function(event) { 
+  let code = event.code;
+  if (!isShiftPressed && (code === "ShiftLeft" || code === "ShiftRight")) {
+    console.log(`Shift has pressed! ${event.code}`);
+    isShiftPressed = true;
+  }
+  if (!isCtrlPressed && (code === "ControlLeft" || code === "ControlRight")) {
+    console.log(`Ctrl has pressed! ${event.code}`);
+    isCtrlPressed = true;
+  }
+  if (!isAltPressed && (code === "AltRight" || code === "AltLeft")) {
+    console.log(`Alt has pressed! ${event.code}`);
+    isAltPressed = true;
   }
   if (isShiftPressed && isAltPressed) {
-    console.log(`change lang!`);
+    keyBoard.changeLang();
   }
-
-  console.log(`pressed btn = ${event.code}`);
-
+  console.log(`pressed btn = ${code}`);
+  
 });
 
 document.addEventListener('keyup', function(event) {
-
-  switch (event.code) {
-    case "ShiftLeft":
-      if (isShiftPressed){
-        isShiftPressed = false;
-      }
-      break;
-    case "ShiftRight":
-      if (isShiftPressed){
-        isShiftPressed = false;
-      }
-      break;
-    case "ControlRight":
-      if (isCtrlPressed) {
-        isCtrlPressed = false;
-      }
-      break;
-    case "ControlLeft":
-      if (isCtrlPressed) {
-        isCtrlPressed = false;
-      }
-      break;
-    case "AltRight":
-      if (isAltPressed) {
-        isAltPressed = false;
-      }
-      break;
-    case "AltLeft":
-      if (isAltPressed) {
-        isAltPressed = false;
-      }
-    default:
-      break;
+  let code = event.code;
+  if (isShiftPressed && (code === "ShiftLeft" || code === "ShiftRight")) {
+    isShiftPressed = false;
   }
+  if (isCtrlPressed && (code === "ControlLeft" || code === "ControlRight")) {
+    isCtrlPressed = false;
+  }
+  if (isAltPressed && (code === "AltRight" || code === "AltLeft")) {
+    isAltPressed = false;
+  }
+
 });
+
 

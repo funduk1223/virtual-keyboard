@@ -2,154 +2,220 @@
     "Backquote": {
         "type": "char",
         "element": {
-            "mainValue": "`",
-            "mainShiftValue": "~",
-            "secondValue": "ё",
-            "secondShiftValue": "Ё"
+            "en": {
+                "value": "`",
+                "shiftValue": "~"
+            },
+            "ru": {
+                "value": "ё",
+                "shiftValue": "Ё"
+            }
         }
     },
     "Digit1": {
         "type": "num",
         "element": {
-            "mainValue": "1",
-            "mainShiftValue": "!",
-            "secondValue": "1",
-            "secondShiftValue": "!"
+            "en": {
+                "value": "1",
+                "shiftValue": "!"
+            },
+            "ru": {
+                "value": "1",
+                "shiftValue": "!"
+            }
         }
     },
     "Digit2": {
         "type": "num",
         "element": {
-            "mainValue": "2",
-            "mainShiftValue": "@",
-            "secondValue": "2",
-            "secondShiftValue": "\""
+            "en": {
+                "value": "2",
+                "shiftValue": "@"
+            },
+            "ru": {
+                "value": "2",
+                "shiftValue": "\""
+            }
         }
     },
     "Digit3": {
         "type": "num",
         "element": {
-            "mainValue": "3",
-            "mainShiftValue": "#",
-            "secondValue": "3",
-            "secondShiftValue": "№"
+            "en": {
+                "value": "3",
+                "shiftValue": "#"
+            },
+            "ru": {
+                "value": "3",
+                "shiftValue": "№"
+            }
         }
     },
     "Digit4": {
         "type": "num",
         "element": {
-            "mainValue": "4",
-            "mainShiftValue": "$",
-            "secondValue": "4",
-            "secondShiftValue": ";"
+            "en": {
+                "value": "4",
+                "shiftValue": "$"
+            },
+            "ru": {
+                "value": "4",
+                "shiftValue": ";"
+            }
         }
     },
     "Digit5": {
         "type": "num",
         "element": {
-            "mainValue": "5",
-            "mainShiftValue": "%",
-            "secondValue": "5",
-            "secondShiftValue": "%"
+            "en": {
+                "value": "5",
+                "shiftValue": "%"
+            },
+            "ru": {
+                "value": "5",
+                "shiftValue": "%"
+            }
         }
     },
     "Digit6": {
         "type": "num",
         "element": {
-            "mainValue": "6",
-            "mainShiftValue": "^",
-            "secondValue": "6",
-            "secondShiftValue": ":"
+            "en": {
+                "value": "6",
+                "shiftValue": "^"
+            },
+            "ru": {
+                "value": "6",
+                "shiftValue": ":"
+            }
         }
     },
     "Digit7": {
         "type": "num",
         "element": {
-            "mainValue": "7",
-            "mainShiftValue": "&",
-            "secondValue": "7",
-            "secondShiftValue": "?"
+            "en": {
+                "value": "7",
+                "shiftValue": "&"
+            },
+            "ru": {
+                "value": "7",
+                "shiftValue": "?"
+            }
         }
     },
     "Digit8": {
         "type": "num",
         "element": {
-            "mainValue": "8",
-            "mainShiftValue": "*",
-            "secondValue": "8",
-            "secondShiftValue": "*"
+            "en": {
+                "value": "8",
+                "shiftValue": "*"
+            },
+            "ru": {
+                "value": "8",
+                "shiftValue": "*"
+            }
         }
     },
     "Digit9": {
         "type": "num",
         "element": {
-            "mainValue": "9",
-            "mainShiftValue": "(",
-            "secondValue": "9",
-            "secondShiftValue": "("
+            "en": {
+                "value": "9",
+                "shiftValue": "("
+            },
+            "ru": {
+                "value": "9",
+                "shiftValue": "("
+            }
         }
     },
     "Digit0": {
         "type": "num",
         "element": {
-            "mainValue": "0",
-            "mainShiftValue": ")",
-            "secondValue": "0",
-            "secondShiftValue": ")"
+            "en": {
+                "value": "0",
+                "shiftValue": ")"
+            },
+            "ru": {
+                "value": "0",
+                "shiftValue": ")"
+            }
         }
     },
-
     "Minus": {
         "type": "num",
         "element": {
-            "mainValue": "-",
-            "mainShiftValue": "_",
-            "secondValue": "-",
-            "secondShiftValue": "_"
+            "en": {
+                "value": "-",
+                "shiftValue": "_"
+            },
+            "ru": {
+                "value": "-",
+                "shiftValue": "_"
+            }
         }
     },
-
     "Equal": {
         "type": "num",
         "element": {
-            "mainValue": "=",
-            "mainShiftValue": "+",
-            "secondValue": "=",
-            "secondShiftValue": "+"
+            "en": {
+                "value": "=",
+                "shiftValue": "+"
+            },
+            "ru": {
+                "value": "=",
+                "shiftValue": "+"
+            }
         }
     },
-    
     "Backspace": {
         "type": "func",
         "element": {
-            "mainValue": "delete"
+            "en": {
+                "value": "delete"
+            }
         }
     },
-
     "Tab": {
         "type": "func",
         "element": {
-            "mainValue": "tab"
+            "en": {
+                "value": "tab"
+            }
         }
     },
-
     "KeyQ": {
         "type": "char",
         "element": {
-            "mainValue": "q",
-            "mainShiftValue": "Q",
-            "secondValue": "й",
-            "secondShiftValue": "Й"
+            "en": {
+                "value": "q",
+                "shiftValue": "Q"
+            },
+            "ru": {
+                "value": "й",
+                "shiftValue": "Й"
+            }
         }
     },
     "KeyW": {
         "type": "char",
         "element": {
-            "mainValue": "w",
-            "mainShiftValue": "W",
-            "secondValue": "ц",
-            "secondShiftValue": "Ц"
+            "en": {
+                "value": "w",
+                "shiftValue": "W"
+            },
+            "ru": {
+                "value": "ц",
+                "shiftValue": "Ц"
+            }
+        }
+    },
+    "ShiftLeft": {
+        "type": "func",
+        "element": {
+            "en": {
+                "value": "shift"
+            }
         }
     }
-    
 }
