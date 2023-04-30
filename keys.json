@@ -170,6 +170,7 @@
     },
     "Backspace": {
         "type": "func",
+        "code": "Backspace",
         "element": {
             "en": {
                 "value": "delete"
@@ -178,6 +179,7 @@
     },
     "Tab": {
         "type": "func",
+        "code": "Tab",
         "element": {
             "en": {
                 "value": "tab"
@@ -212,9 +214,37 @@
     },
     "ShiftLeft": {
         "type": "func",
+        "code": "ShiftLeft",
         "element": {
             "en": {
                 "value": "shift"
+            }
+        }
+    },
+    "AltLeft": {
+        "type": "func",
+        "code": "AltLeft",
+        "element": {
+            "en": {
+                "value": "alt"
+            }
+        }
+    },
+    "ControlLeft": {
+        "type": "func",
+        "code": "ControlLeft",
+        "element": {
+            "en": {
+                "value": "ctrl"
+            }
+        }
+    },
+    "CapsLock": {
+        "type": "func",
+        "code": "CapsLock",
+        "element": {
+            "en": {
+                "value": "caps"
             }
         }
     }
