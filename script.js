@@ -169,7 +169,7 @@ class KeyBoard {
     
   }
 
-  shiftButtons(isShift){
+  shiftButtons(){
     for (let k in this.keysList) {
       let btn;
       let keyButton = this.keysList[k];
@@ -182,7 +182,7 @@ class KeyBoard {
     }
   }
 
-  capsButtons(isCaps){
+  capsButtons(){
     for (let k in this.keysList) {
       let btn;
       let keyButton = this.keysList[k];
@@ -223,18 +223,18 @@ class KeyBoard {
     if (`${btn}` in this.keysList) {
 
       if (!this.isShiftPressed && (btn === "ShiftLeft" || btn === "ShiftRight")) {
-        //console.log(`Shift has pressed! ${btn}`);
+        
         this.isShiftPressed = true;
         this.setActiveState(this.isShiftPressed, btn);
-        this.shiftButtons(this.isShiftPressed);
+        this.shiftButtons();
       }
       else if (!this.isCtrlPressed && (btn === "ControlLeft" || btn === "ControlRight")) {
-        //console.log(`Ctrl has pressed! ${btn}`);
+       
         this.isCtrlPressed = true;
         this.setActiveState(this.isCtrlPressed, btn);
       }
       else if (!this.isAltPressed && (btn === "AltRight" || btn === "AltLeft")) {
-        //console.log(`Alt has pressed! ${btn}`);
+        
         this.isAltPressed = true;
         this.setActiveState(this.isAltPressed, btn);
       }
@@ -242,7 +242,7 @@ class KeyBoard {
         console.log(`CAPS has pressed! ${btn}`);
         
         this.isCapsPressed = !this.isCapsPressed;
-        this.capsButtons(this.isCapsPressed);
+        this.capsButtons();
         this.setActiveState(this.isCapsPressed, btn);
       }
       //Default:
@@ -254,7 +254,7 @@ class KeyBoard {
         console.log(`change lang! ${btn}`);
         this.changeLang();
       }
-      //console.log(`type = ${this.keysList[keyButton].type} value = '${this.keysList[keyButton].value}'`);
+      
     }
   }
 
@@ -288,15 +288,12 @@ fetch('/keys.json')
   .then((responseJSON) => { 
     KEYS = responseJSON;
     keyBoard = new KeyBoard(virtualKeyboard);
-    console.log(JSON.stringify(keyBoard.init(KEYS), ' ', 4));
+    keyBoard.init(KEYS);
   });
 
 
 
 // Phisycal Keyboard handler to special buttons
-// let isShiftPressed = false;
-// let isCtrlPressed = false;
-// let isAltPressed = false;
 
 document.addEventListener('keydown', function(event) { 
   let code = event.code;
