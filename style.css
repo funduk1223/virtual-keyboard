@@ -1,42 +1,111 @@
 * {
   margin: 0;
   background-color: rgb(46, 46, 46);
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bolder;
 }
 
 .wrapper {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
 }
 
+.textarea {
+  background-color: rgb(167, 167, 167);
+}
 
 .visual-keyboard {
+  display: flex;
   margin: 0 auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content:  space-between;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+}
+
+.visual-keyboard__row {
+  margin: 0;
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
 }
 
 button {
-  width: 50px;
   height: 50px;
-  margin: 20px 20px;
+  width:  50px;
+  margin: 1px;
+  align-self: center;
+  flex-grow: 1;
 }
 
-.key-button {
+.visual-keyboard__button {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: antiquewhite;
   transition: all 0.5s ease;
 }
 
-.key-button-active {
+.visual-keyboard__button_active {
   background-color: rgb(245, 97, 97);
 }
 
-.key-button:hover {
+.visual-keyboard__button:hover {
   background-color: rgb(219, 250, 215);
 }
 
-.key-button:active {
+.visual-keyboard__button:active {
   background-color: rgb(250, 149, 149);
+}
+
+img {
+  width: clamp(8px, 100%, 32px);
+  height: clamp(8px, 100%, 32px);
+  background-color: none;
+}
+
+#Backspace {
+  flex-grow: 4;
+  background-image: url("./media/icon/backspace-svgrepo-com.svg");
+  background-size: clamp(8px, 100%, 20px);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#Enter {
+  flex-grow: 4;
+  background-image: url("./media/icon/arrow-enter-svgrepo-com.svg");
+  background-size: clamp(8px, 100%, 20px);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#Space {
+  width: 50%;
+  background-image: url("./media/icon/");
+  background-size: clamp(8px, 100%, 20px);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#Tab {
+  flex-grow: 2;
+  background-image: url("./media/icon/keyboard-tab-svgrepo-com.svg");
+  background-size: clamp(8px, 100%, 20px);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#CapsLock {
+  flex-grow: 4;
+  background-image: url("./media/icon/capslock-svgrepo-com.svg");
+  background-size: clamp(8px, 100%, 20px);
+  background-repeat: no-repeat;
+  background-position: center;
 }

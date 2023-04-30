@@ -1,6 +1,3 @@
-// TODO: create a vertual keyboard also from scripts
-const virtualKeyboard = document.querySelector('.visual-keyboard');
-
 class KeyButton {
   constructor(obj, lang) {
     this.type = obj.type;
@@ -22,7 +19,7 @@ class KeyButton {
         result = this.key.en;
         break;
       case 'ru':
-        result = this.key.ru == undefined ? this.key.en : this.key.ru;
+        result = this.key.ru === undefined ? this.key.en : this.key.ru;
         break;
       default:
         throw new Error('Can\'t recognize the language');
@@ -51,7 +48,7 @@ class KeyButton {
   toggleLanguage() {
     switch (this.lang) {
       case 'en':
-        this.mainLang = this.key.ru == undefined ? this.key.en : this.key.ru;
+        this.mainLang = this.key.ru === undefined ? this.key.en : this.key.ru;
         this.lang = 'ru';
         break;
       case 'ru':
@@ -71,9 +68,10 @@ class KeyButton {
 }
 
 class KeyBoard {
-  constructor(elem) {
+  constructor(elem, textArea) {
     this.elem = elem;
-    // elem.onclick = this.onClick.bind(this);
+    this.textArea = textArea;
+    this.input = '';
     this.keysList = {};
     this.language = 'en';
     this.isShiftPressed = false;
@@ -82,14 +80,10 @@ class KeyBoard {
     this.isCapsPressed = false;
   }
 
-  onClick(event) {
-    const element = event.target;
-    if (element.nodeName === 'BUTTON') {
-      console.log(`this.elem = ${this.elem} menu class = ${element.id}`);
-    }
-  }
-
   init(obj) {
+    let row = document.createElement('div');
+    row.className = 'visual-keyboard__row';
+    this.elem.appendChild(row);
     for (const key in obj) {
       // TODO: check local storage and get lang value; try catch and set default;
       const lang = 'en';
@@ -97,23 +91,34 @@ class KeyBoard {
       const keyButton = new KeyButton(element, lang);
       const htmlButton = this.createKeyButton(key, keyButton.value);
       this.keysList[key] = keyButton;
-      this.elem.appendChild(htmlButton);
+      row.appendChild(htmlButton);
+      if (key === 'Backspace'
+          || key === 'Delete'
+          || key === 'Enter'
+          || key === 'ShiftRight') {
+        row = document.createElement('div');
+        row.className = 'visual-keyboard__row';
+        this.elem.appendChild(row);
+      }
     }
-
+    console.log(this.keysList);
     return this.keysList;
   }
 
   createKeyButton(id, value) {
     const htmlButton = document.createElement('button');
-    htmlButton.className = 'key-button';
+    htmlButton.className = 'visual-keyboard__button';
     htmlButton.id = `${id}`;
     htmlButton.innerText = `${value}`;
+    console.log(id);
+
     htmlButton.addEventListener('mousedown', () => {
       this.buttonMouseDownHandler(htmlButton);
     });
     htmlButton.addEventListener('mouseup', () => {
       this.buttonMouseUpHandler(htmlButton);
     });
+
     return htmlButton;
   }
 
@@ -122,11 +127,11 @@ class KeyBoard {
     switch (active) {
       case true:
         htmlBtn = this.elem.querySelector(`#${elem}`);
-        htmlBtn.classList.add('key-button-active');
+        htmlBtn.classList.add('visual-keyboard__button_active');
         break;
       case false:
         htmlBtn = this.elem.querySelector(`#${elem}`);
-        htmlBtn.classList.remove('key-button-active');
+        htmlBtn.classList.remove('visual-keyboard__button_active');
         break;
 
       default:
@@ -164,9 +169,10 @@ class KeyBoard {
   capsButtons() {
     for (const k in this.keysList) {
       let btn;
+      // let reg = new RegExp(/[a-zа-я]/ig);
       const keyButton = this.keysList[k];
-
-      if (this.keysList[k].type === 'char') {
+      const result = keyButton.returnValue().match(/[a-zа-яё]/ig);
+      if (this.keysList[k].type === 'char' && result) {
         keyButton.toggleValue();
         btn = document.getElementById(k);
         btn.innerText = '';
@@ -177,17 +183,21 @@ class KeyBoard {
 
   buttonMouseUpHandler(htmlButton) {
     if (`${htmlButton.id}` in this.keysList) {
-      const entiresBtn = this.keysList[htmlButton.id];
-      // console.log(`type = ${entiresBtn.type} html value = '${htmlButton.innerText}' btn value = '${entiresBtn.value}' code button = ${entiresBtn.code}`);
-      this.buttonKeyUpHandler(entiresBtn.code);
+      this.buttonKeyUpHandler(htmlButton.id);
+      htmlButton.removeEventListener('mouseleave', () => {
+        this.buttonMouseUpHandler(htmlButton);
+      });
     }
   }
 
   buttonMouseDownHandler(htmlButton) {
     if (`${htmlButton.id}` in this.keysList) {
       const entiresBtn = this.keysList[htmlButton.id];
-      console.log(`type = ${entiresBtn.type} html value = '${htmlButton.innerText}' btn value = '${entiresBtn.value}' code button = ${entiresBtn.code}`);
-      this.buttonPressDownHandler(entiresBtn.code);
+      console.log(`type = ${entiresBtn.type} html value = '${htmlButton.innerText}' btn value = '${entiresBtn.value}' code button = ${htmlButton.id}`);
+      this.buttonPressDownHandler(htmlButton.id);
+      htmlButton.addEventListener('mouseleave', () => {
+        this.buttonMouseUpHandler(htmlButton);
+      });
     }
   }
 
@@ -200,27 +210,34 @@ class KeyBoard {
   }
 
   buttonPressDownHandler(btn) {
-    if (`${btn}` in this.keysList) {
-      if (!this.isShiftPressed && (btn === 'ShiftLeft' || btn === 'ShiftRight')) {
-        this.isShiftPressed = true;
-        this.setActiveState(this.isShiftPressed, btn);
-        this.shiftButtons();
-      } else if (!this.isCtrlPressed && (btn === 'ControlLeft' || btn === 'ControlRight')) {
-        this.isCtrlPressed = true;
-        this.setActiveState(this.isCtrlPressed, btn);
-      } else if (!this.isAltPressed && (btn === 'AltRight' || btn === 'AltLeft')) {
-        this.isAltPressed = true;
-        this.setActiveState(this.isAltPressed, btn);
-      } else if (btn === 'CapsLock') {
-        console.log(`CAPS has pressed! ${btn}`);
-
-        this.isCapsPressed = !this.isCapsPressed;
-        this.capsButtons();
-        this.setActiveState(this.isCapsPressed, btn);
-      }
-      // Default:
-      else {
+    if (`${btn}` in this.keysList) { // Functionality key
+      if (this.keysList[btn].type === 'func') {
+        if (!this.isShiftPressed && (btn === 'ShiftLeft' || btn === 'ShiftRight')) {
+          this.isShiftPressed = true;
+          this.setActiveState(this.isShiftPressed, btn);
+          this.shiftButtons();
+        } else if (!this.isCtrlPressed && (btn === 'ControlLeft' || btn === 'ControlRight')) {
+          this.isCtrlPressed = true;
+          this.setActiveState(this.isCtrlPressed, btn);
+        } else if (!this.isAltPressed && (btn === 'AltRight' || btn === 'AltLeft')) {
+          this.isAltPressed = true;
+          this.setActiveState(this.isAltPressed, btn);
+        } else if (btn === 'CapsLock') {
+          this.isCapsPressed = !this.isCapsPressed;
+          this.capsButtons();
+          this.setActiveState(this.isCapsPressed, btn);
+        } else if (btn === 'Tab') {
+          this.input += '  ';
+          this.textArea.textContent = this.input;
+          this.setActiveState(true, btn);
+        } else if (btn === 'Backspace') {
+          this.setActiveState(true, btn);
+        }
+      } else if (this.keysList[btn].type !== 'func') { // Default key:
         this.setActiveState(true, btn);
+        this.input += this.keysList[btn].value;
+        this.textArea.textContent = this.input;
+        console.log(this.input);
       }
 
       if (this.isCtrlPressed && this.isAltPressed) {
@@ -248,21 +265,30 @@ class KeyBoard {
     }
   }
 }
-
+// TODO: create a vertual keyboard also from scripts
+const virtualKeyboard = document.querySelector('.visual-keyboard');
+const textArea = document.querySelector('.textarea');
 let keyBoard;
 let KEYS;
 fetch('/keys.json')
   .then((response) => response.json())
   .then((responseJSON) => {
     KEYS = responseJSON;
-    keyBoard = new KeyBoard(virtualKeyboard);
+    keyBoard = new KeyBoard(virtualKeyboard, textArea);
     keyBoard.init(KEYS);
   });
 
 // Phisycal Keyboard handler to special buttons
-
 document.addEventListener('keydown', (event) => {
   const { code } = event;
+  if (code === 'Tab'
+  || code === 'Backspace'
+  || code === 'AltRight'
+  || code === 'ArrowLeft'
+  || code === 'ArrowDown'
+  || code === 'ArrowUp') {
+    event.preventDefault();
+  }
   keyBoard.buttonKeyDownHandler(code);
   console.log(`!! pressed btn = ${code}`);
 });
@@ -271,3 +297,7 @@ document.addEventListener('keyup', (event) => {
   const { code } = event;
   keyBoard.buttonKeyUpHandler(code);
 });
+
+// textArea.onblur = function() {
+//   textArea.focus();
+// }
