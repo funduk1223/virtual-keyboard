@@ -15,8 +15,13 @@
   width: 100%;
 }
 
+textarea {
+  tab-size: 4;
+}
+
 .textarea {
   background-color: rgb(167, 167, 167);
+  
 }
 
 .visual-keyboard {

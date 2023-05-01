@@ -182,7 +182,8 @@
         "code": "Tab",
         "element": {
             "en": {
-                "value": "\t\t"
+                "value": "\t",
+                "shiftValue": "\t"
             }
         }
     },

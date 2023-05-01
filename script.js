@@ -76,6 +76,7 @@ class KeyBoard {
     this.keysList = {};
     this.language = 'en';
     this.cursor = 0;
+    this.isTabPressed = false;
     this.isShiftPressed = false;
     this.isCtrlPressed = false;
     this.isAltPressed = false;
@@ -104,34 +105,11 @@ class KeyBoard {
       }
     }
     console.log(this.keysList);
-    // this.textArea.addEventListener("focusin", () => {
-    //   this.textAreaFocus = true;
-    //   console.log(`textAreaFocus = ${this.textAreaFocus }`);
-    //   setTimeout(()=>{
-    //     this.cursor = this.textArea.selectionEnd;
-    //     console.log(`this.cursor = ${this.cursor }`);
-    //   }, 100);
-    //   //if (this.textArea.selectionStart === this.textArea.selectionEnd) this.cursor = this.textArea.selectionEnd;
-    // });
 
-    // this.textArea.addEventListener("focusout", () => {
-    //   this.textAreaFocus = false;
-    //   console.log(`textAreaFocus = ${this.textAreaFocus }`);
-    //   console.log(`text area NOT focused this.textArea.selectionEnd = ${this.textArea.selectionEnd}`);
-    //   this.cursor = this.textArea.selectionEnd;
-    //   //if (this.textArea.selectionStart === this.textArea.selectionEnd) this.cursor = this.textArea.selectionEnd;
-    // });
     this.textArea.onclick = () => {
       console.log(`textArea onclick = ${this.textArea.selectionEnd}`);
       this.cursor = this.textArea.selectionEnd;
-      // setTimeout(()=>{
-        
-      //   console.log(`this.cursor = ${this.cursor }`);
-      // }, 100);
-    }
-    //this.textArea.addEventListener("blur", () => form.classList.remove('focused'), true);
-
-    
+    };
     return this.keysList;
   }
 
@@ -194,7 +172,6 @@ class KeyBoard {
       }
     }
   }
-  
 
   capsButtons() {
     for (const k in this.keysList) {
@@ -223,7 +200,7 @@ class KeyBoard {
   buttonMouseDownHandler(htmlButton) {
     if (`${htmlButton.id}` in this.keysList) {
       const entiresBtn = this.keysList[htmlButton.id];
-      //console.log(`type = ${entiresBtn.type} html value = '${htmlButton.innerText}' btn value = '${entiresBtn.value}' code button = ${htmlButton.id}`);
+      // console.log(`type = ${entiresBtn.type} html value = '${htmlButton.innerText}' btn value = '${entiresBtn.value}' code button = ${htmlButton.id}`);
       this.buttonPressDownHandler(htmlButton.id);
       htmlButton.addEventListener('mouseleave', () => {
         this.buttonMouseUpHandler(htmlButton);
@@ -240,7 +217,7 @@ class KeyBoard {
   }
 
   buttonPressDownHandler(btn) {
-
+    this.textArea.focus();
     if (`${btn}` in this.keysList) { // Functionality key
       if (this.keysList[btn].type === 'func') {
         if (!this.isShiftPressed && (btn === 'ShiftLeft' || btn === 'ShiftRight')) {
@@ -257,35 +234,50 @@ class KeyBoard {
           this.isCapsPressed = !this.isCapsPressed;
           this.capsButtons();
           this.setActiveState(this.isCapsPressed, btn);
-        } else if (btn === 'Tab') {
-          this.input += '  ';
-          this.textArea.textContent = this.input;
-          this.setActiveState(true, btn);
+        } else if (!this.isTabPressed && btn === 'Tab') {
+          this.isTabPressed = true;
+          this.setActiveState(this.isTabPressed, btn);
+          this.addChar(this.keysList[btn].value);
         } else if (btn === 'Backspace') {
           this.setActiveState(true, btn);
-        }
+          this.deleteChar(-1);
+        } else if (btn === 'Delete') {
+          this.setActiveState(true, btn);
+          this.deleteChar(0);
+        } 
       } else if (this.keysList[btn].type !== 'func') { // Default key:
         this.setActiveState(true, btn);
-        //this.getCursorPosition();
-        // this.textArea.focus();
-        let outputCharArr;
-        outputCharArr = this.input.split('');
-        outputCharArr.splice(this.cursor, 0, this.keysList[btn].value)
-        this.input = outputCharArr.join('');
-        
-        //this.input += this.keysList[btn].value;
-        setTimeout(()=>{
-          this.cursor++;
-          this.textArea.value = this.input;
-        }, 10);
-        
-        //console.log(this.input);
+        this.addChar(this.keysList[btn].value);
+        console.log(this.input);
       }
 
       if (this.isCtrlPressed && this.isAltPressed) {
-        //console.log(`change lang! ${btn}`);
+        // console.log(`change lang! ${btn}`);
         this.changeLang();
       }
+    }
+  }
+
+  addChar(char) {
+    let outputCharArr;
+    outputCharArr = this.input.split('');
+    outputCharArr.splice(this.cursor, 0, char);
+    this.input = outputCharArr.join('');
+    setTimeout(() => {
+      this.cursor++;
+      this.textArea.value = this.input;
+    }, 10);
+  }
+
+  deleteChar(index) {
+    if (this.cursor > 0 && this.cursor <= this.input.length) {
+      const outputCharArr = this.input.split('');
+      outputCharArr.splice(this.cursor + index, 1);
+      this.input = outputCharArr.join('');
+      setTimeout(() => {
+        this.cursor += index;
+        this.textArea.value = this.input;
+      }, 10);
     }
   }
 
@@ -301,6 +293,9 @@ class KeyBoard {
       } else if (this.isAltPressed && (btn === 'AltRight' || btn === 'AltLeft')) {
         this.isAltPressed = false;
         this.setActiveState(this.isAltPressed, btn);
+      } else if (this.isTabPressed && btn === 'Tab') {
+        this.isTabPressed = false;
+        this.setActiveState(this.isTabPressed, btn);
       } else if (btn !== 'CapsLock') {
         this.setActiveState(false, btn);
       }
@@ -334,7 +329,7 @@ document.addEventListener('keydown', (event) => {
     event.preventDefault();
   }
   keyBoard.buttonKeyDownHandler(code);
-  //console.log(`!! pressed btn = ${code}`);
+  // console.log(`!! pressed btn = ${code}`);
 });
 
 document.addEventListener('keyup', (event) => {
