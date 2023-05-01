@@ -1,44 +1,55 @@
 * {
   margin: 0;
-  background-color: rgb(46, 46, 46);
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 1.05rem;
   font-style: normal;
   font-weight: bolder;
 }
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+html, body {
+  margin: 0 auto;
   height: 100%;
   width: 100%;
+  display: flex;
+}
+
+.wrapper {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 70%;
   margin: auto;
 }
 
 textarea {
   tab-size: 4;
+  display: flex;
+  align-self: center;
+  width: 70%;
+  height: 300px;
 }
 
-.textarea {
-  background-color: rgb(167, 167, 167);
-  
-}
 
 .virtual-keyboard {
   display: flex;
   margin: 0 auto;
+  padding: 10px;
+  border-radius: 1rem;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content:  space-between;
   align-items: center;
-  width: clamp(300px, 100%, 950px);;
-  height: 100%;
+  width: 80%;
+  height: 300px;
+  background-color: #5EC4CD;
 }
 
 .virtual-keyboard__row {
   margin: 0;
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -51,7 +62,7 @@ button {
   margin: 1px;
   align-self: center;
   flex-grow: 1;
- 
+  
 }
 
 .virtual-keyboard__button {
@@ -59,25 +70,27 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 195, 117, 0.392);
-  border-style: double;
-  border-radius: 0rem;
+  background-color: #2a585c;
+  border-style: none;
+  border-radius: 0.2rem;
   transition: all 0.25s ease;
+  color:rgb(213, 213, 213);
 }
 
 .virtual-keyboard__button_active {
   height: 40px;
   width:  40px;
-  border-radius: 1rem;
-  background-color: rgb(245, 97, 97);
+  border-radius: 0.5rem;
+  background-color: rgb(226, 214, 112);
 }
 
 .virtual-keyboard__button:hover {
-  background-color: rgb(219, 250, 215);
+  background-color: rgb(190, 255, 182);
+  color: rgb(77, 77, 77);
 }
 
 .virtual-keyboard__button:active {
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   background-color: rgb(245, 97, 97);
 }
 
@@ -89,39 +102,50 @@ img {
 
 #Backspace {
   flex-grow: 4;
-  background-image: url("../media/icon/backspace-svgrepo-com.svg");
+  background-image: url("../media/icon/backspace-white.svg");
   background-size: clamp(8px, 100%, 20px);
   background-repeat: no-repeat;
   background-position: center;
+}
+#Backspace:hover {
+  background-image: url("../media/icon/backspace-black.svg");
 }
 #Enter {
   flex-grow: 4;
-  background-image: url("../media/icon/arrow-enter-svgrepo-com.svg");
+  background-image: url("../media/icon/arrow-enter-white.svg");
   background-size: clamp(8px, 100%, 20px);
   background-repeat: no-repeat;
   background-position: center;
 }
+#Enter:hover {
+  background-image: url("../media/icon/arrow-enter-black.svg");
+}
 #Space {
-  width: 50%;
-  background-image: url("../media/icon/");
+  width: 40%;
   background-size: clamp(8px, 100%, 20px);
   background-repeat: no-repeat;
   background-position: center;
 }
 #Tab {
   flex-grow: 2;
-  background-image: url("../media/icon/keyboard-tab-svgrepo-com.svg");
+  background-image: url("../media/icon/tab-white.svg");
   background-size: clamp(8px, 100%, 20px);
   background-repeat: no-repeat;
   background-position: center;
 }
+#Tab:hover {
+  background-image: url("../media/icon/tab-black.svg");
+}
 #CapsLock {
   flex-grow: 4;
   width: clamp(8px, 100%, 80px);
-  background-image: url("../media/icon/capslock-svgrepo-com.svg");
+  background-image: url("../media/icon/capslock-white.svg");
   background-size: clamp(8px, 100%, 20px);
   background-repeat: no-repeat;
   background-position: center;
+}
+#CapsLock:hover {  
+  background-image: url("../media/icon/capslock-black.svg");
 }
 #ShiftRight,
 #ShiftLeft {
