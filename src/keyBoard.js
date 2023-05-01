@@ -115,9 +115,8 @@ export default class KeyBoard {
       let btn;
       const keyButton = objKeys[index][1];
       const key = objKeys[index][0];
-      const result = keyButton.value.match(/[a-zа-яё]/ig);
-      if (this.keysList[key].type === 'char' && result) {
-        keyButton.toggleValue();
+      if (this.keysList[key].type === 'char') {
+        keyButton.capsValue();
         btn = document.getElementById(key);
         btn.innerText = '';
         btn.innerText = `${keyButton.returnValue()}`;
