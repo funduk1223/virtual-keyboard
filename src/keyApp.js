@@ -22,6 +22,9 @@ function app() {
   inst = document.createElement('p');
   inst.innerText = 'Для переключения языка комбинация: левыe ctrl + alt';
   instruction.appendChild(inst);
+  inst = document.createElement('p');
+  inst.innerText = 'А также кнопка переключения языка между левым alt и пробелом';
+  instruction.appendChild(inst);
   let language = localStorage.getItem('lang');
   language = language === null ? 'en' : language;
   const keyBoard = new KeyBoard(virtualKeyboard, textArea, language);
