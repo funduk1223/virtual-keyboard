@@ -34,10 +34,12 @@ class KeyButton {
 
   toggleValue() {
     if (this.type !== 'func') {
-      for (const lang in this.key) {
-        const buffer = this.key[lang].value;
-        this.key[lang].value = this.key[lang].shiftValue;
-        this.key[lang].shiftValue = buffer;
+      const keyLang = Object.entries(this.key);
+      for (let index = 0; index < keyLang.length; index += 1) {
+        const key = keyLang[index][1];
+        const buffer = key.value;
+        key.value = key.shiftValue;
+        key.shiftValue = buffer;
       }
     }
     this.mainLang = this.setButtonLang();
@@ -68,13 +70,13 @@ class KeyButton {
 }
 
 class KeyBoard {
-  constructor(elem, textArea) {
+  constructor(elem, textArea, lang) {
     this.elem = elem;
     this.textArea = textArea;
     this.textAreaFocus = false;
     this.input = '';
     this.keysList = {};
-    this.language = 'en';
+    this.language = lang;
     this.cursor = 0;
     this.isTabPressed = false;
     this.isShiftPressed = false;
@@ -87,11 +89,11 @@ class KeyBoard {
     let row = document.createElement('div');
     row.className = 'visual-keyboard__row';
     this.elem.appendChild(row);
-    for (const key in obj) {
-      // TODO: check local storage and get lang value; try catch and set default;
-      const lang = 'en';
-      const element = obj[key];
-      const keyButton = new KeyButton(element, lang);
+    const objKeys = Object.entries(obj);
+    for (let index = 0; index < objKeys.length; index += 1) {
+      const element = objKeys[index][1];
+      const key = objKeys[index][0];
+      const keyButton = new KeyButton(element, this.language);
       const htmlButton = this.createKeyButton(key, keyButton.value);
       this.keysList[key] = keyButton;
       row.appendChild(htmlButton);
@@ -104,10 +106,7 @@ class KeyBoard {
         this.elem.appendChild(row);
       }
     }
-    console.log(this.keysList);
-
     this.textArea.onclick = () => {
-      console.log(`textArea onclick = ${this.textArea.selectionEnd}`);
       this.cursor = this.textArea.selectionEnd;
     };
     return this.keysList;
@@ -147,26 +146,31 @@ class KeyBoard {
   }
 
   changeLang() {
-    for (const k in this.keysList) {
+    const objKeys = Object.entries(this.keysList);
+    for (let index = 0; index < objKeys.length; index += 1) {
       let btn;
-      const keyButton = this.keysList[k];
+      const key = objKeys[index][0];
+      const keyButton = objKeys[index][1];
       if (keyButton.type !== 'func') {
-        btn = document.getElementById(k);
+        btn = document.getElementById(key);
         btn.innerText = '';
         keyButton.toggleLanguage(this.language);
         btn.innerText = `${keyButton.returnValue()}`;
       }
     }
     this.language = (this.language === 'en' ? 'ru' : 'en');
+    localStorage.setItem('lang', this.language);
   }
 
   shiftButtons() {
-    for (const k in this.keysList) {
+    const objKeys = Object.entries(this.keysList);
+    for (let index = 0; index < objKeys.length; index += 1) {
       let btn;
-      const keyButton = this.keysList[k];
+      const key = objKeys[index][0];
+      const keyButton = objKeys[index][1];
       keyButton.toggleValue();
       if (keyButton.type !== 'func') {
-        btn = document.getElementById(k);
+        btn = document.getElementById(key);
         btn.innerText = '';
         btn.innerText = `${keyButton.returnValue()}`;
       }
@@ -174,14 +178,15 @@ class KeyBoard {
   }
 
   capsButtons() {
-    for (const k in this.keysList) {
+    const objKeys = Object.entries(this.keysList);
+    for (let index = 0; index < objKeys.length; index += 1) {
       let btn;
-      // let reg = new RegExp(/[a-zа-я]/ig);
-      const keyButton = this.keysList[k];
+      const keyButton = objKeys[index][1];
+      const key = objKeys[index][0];
       const result = keyButton.returnValue().match(/[a-zа-яё]/ig);
-      if (this.keysList[k].type === 'char' && result) {
+      if (this.keysList[key].type === 'char' && result) {
         keyButton.toggleValue();
-        btn = document.getElementById(k);
+        btn = document.getElementById(key);
         btn.innerText = '';
         btn.innerText = `${keyButton.returnValue()}`;
       }
@@ -199,8 +204,6 @@ class KeyBoard {
 
   buttonMouseDownHandler(htmlButton) {
     if (`${htmlButton.id}` in this.keysList) {
-      const entiresBtn = this.keysList[htmlButton.id];
-      // console.log(`type = ${entiresBtn.type} html value = '${htmlButton.innerText}' btn value = '${entiresBtn.value}' code button = ${htmlButton.id}`);
       this.buttonPressDownHandler(htmlButton.id);
       htmlButton.addEventListener('mouseleave', () => {
         this.buttonMouseUpHandler(htmlButton);
@@ -244,7 +247,7 @@ class KeyBoard {
         } else if (btn === 'Delete') {
           this.setActiveState(true, btn);
           this.deleteChar(0);
-        } 
+        }
       } else if (this.keysList[btn].type !== 'func') { // Default key:
         this.setActiveState(true, btn);
         this.addChar(this.keysList[btn].value);
@@ -252,19 +255,17 @@ class KeyBoard {
       }
 
       if (this.isCtrlPressed && this.isAltPressed) {
-        // console.log(`change lang! ${btn}`);
         this.changeLang();
       }
     }
   }
 
   addChar(char) {
-    let outputCharArr;
-    outputCharArr = this.input.split('');
+    const outputCharArr = this.input.split('');
     outputCharArr.splice(this.cursor, 0, char);
     this.input = outputCharArr.join('');
     setTimeout(() => {
-      this.cursor++;
+      this.cursor += 1;
       this.textArea.value = this.input;
     }, 10);
   }
@@ -307,11 +308,14 @@ const virtualKeyboard = document.querySelector('.visual-keyboard');
 const textArea = document.querySelector('.textarea');
 let keyBoard;
 let KEYS;
+let language;
 fetch('/keys.json')
   .then((response) => response.json())
   .then((responseJSON) => {
     KEYS = responseJSON;
-    keyBoard = new KeyBoard(virtualKeyboard, textArea);
+    language = localStorage.getItem('lang');
+    language = language === null ? 'en' : language;
+    keyBoard = new KeyBoard(virtualKeyboard, textArea, language);
     keyBoard.init(KEYS);
   });
 
