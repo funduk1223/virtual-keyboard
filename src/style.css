@@ -13,6 +13,7 @@
   align-items: center;
   height: 100%;
   width: 100%;
+  margin: auto;
 }
 
 textarea {
@@ -24,18 +25,18 @@ textarea {
   
 }
 
-.visual-keyboard {
+.virtual-keyboard {
   display: flex;
   margin: 0 auto;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content:  space-between;
   align-items: center;
-  width: 90%;
+  width: clamp(300px, 100%, 950px);;
   height: 100%;
 }
 
-.visual-keyboard__row {
+.virtual-keyboard__row {
   margin: 0;
   width: 80%;
   display: flex;
@@ -53,7 +54,7 @@ button {
  
 }
 
-.visual-keyboard__button {
+.virtual-keyboard__button {
   flex-grow: 1;
   display: flex;
   align-items: center;
@@ -64,18 +65,18 @@ button {
   transition: all 0.25s ease;
 }
 
-.visual-keyboard__button_active {
+.virtual-keyboard__button_active {
   height: 40px;
   width:  40px;
   border-radius: 1rem;
   background-color: rgb(245, 97, 97);
 }
 
-.visual-keyboard__button:hover {
+.virtual-keyboard__button:hover {
   background-color: rgb(219, 250, 215);
 }
 
-.visual-keyboard__button:active {
+.virtual-keyboard__button:active {
   border-radius: 1rem;
   background-color: rgb(245, 97, 97);
 }
@@ -88,36 +89,44 @@ img {
 
 #Backspace {
   flex-grow: 4;
-  background-image: url("./media/icon/backspace-svgrepo-com.svg");
+  background-image: url("../media/icon/backspace-svgrepo-com.svg");
   background-size: clamp(8px, 100%, 20px);
   background-repeat: no-repeat;
   background-position: center;
 }
 #Enter {
   flex-grow: 4;
-  background-image: url("./media/icon/arrow-enter-svgrepo-com.svg");
+  background-image: url("../media/icon/arrow-enter-svgrepo-com.svg");
   background-size: clamp(8px, 100%, 20px);
   background-repeat: no-repeat;
   background-position: center;
 }
 #Space {
   width: 50%;
-  background-image: url("./media/icon/");
+  background-image: url("../media/icon/");
   background-size: clamp(8px, 100%, 20px);
   background-repeat: no-repeat;
   background-position: center;
 }
 #Tab {
   flex-grow: 2;
-  background-image: url("./media/icon/keyboard-tab-svgrepo-com.svg");
+  background-image: url("../media/icon/keyboard-tab-svgrepo-com.svg");
   background-size: clamp(8px, 100%, 20px);
   background-repeat: no-repeat;
   background-position: center;
 }
 #CapsLock {
   flex-grow: 4;
-  background-image: url("./media/icon/capslock-svgrepo-com.svg");
+  width: clamp(8px, 100%, 80px);
+  background-image: url("../media/icon/capslock-svgrepo-com.svg");
   background-size: clamp(8px, 100%, 20px);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#ShiftRight,
+#ShiftLeft {
+  flex-grow: 4;
+  width: clamp(8px, 100%, 100px);
   background-repeat: no-repeat;
   background-position: center;
 }
