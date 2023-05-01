@@ -50,15 +50,13 @@ export default class KeyButton {
   capsValue() {
     if (this.type !== 'func') {
       const keyLang = Object.entries(this.key);
-      for (let index = 0; index <keyLang.length; index += 1) {
-       
+      for (let index = 0; index < keyLang.length; index += 1) {
         const key = keyLang[index][1];
         if (key.value.match(/[a-zа-яё]/gi) !== null) {
           const buffer = key.value;
           key.value = key.shiftValue;
           key.shiftValue = buffer;
         }
-        
       }
     }
     this.mainLang = this.setButtonLang();
