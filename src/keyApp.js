@@ -35,12 +35,9 @@ function app() {
     const { code } = event;
     if (code === 'Tab'
     || code === 'Backspace'
-    || code === 'AltRight'
-    || code === 'AltLeft'
-    || code === 'ArrowRight'
-    || code === 'ArrowLeft'
-    || code === 'ArrowDown'
-    || code === 'ArrowUp') {
+    || (/alt/i).test(code)
+    || (/arrow/i).test(code)
+    || (/num/i).test(code)) {
       event.preventDefault();
     }
     keyBoard.buttonKeyDownHandler(code);
