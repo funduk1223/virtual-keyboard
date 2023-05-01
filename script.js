@@ -71,9 +71,11 @@ class KeyBoard {
   constructor(elem, textArea) {
     this.elem = elem;
     this.textArea = textArea;
+    this.textAreaFocus = false;
     this.input = '';
     this.keysList = {};
     this.language = 'en';
+    this.cursor = 0;
     this.isShiftPressed = false;
     this.isCtrlPressed = false;
     this.isAltPressed = false;
@@ -102,6 +104,34 @@ class KeyBoard {
       }
     }
     console.log(this.keysList);
+    // this.textArea.addEventListener("focusin", () => {
+    //   this.textAreaFocus = true;
+    //   console.log(`textAreaFocus = ${this.textAreaFocus }`);
+    //   setTimeout(()=>{
+    //     this.cursor = this.textArea.selectionEnd;
+    //     console.log(`this.cursor = ${this.cursor }`);
+    //   }, 100);
+    //   //if (this.textArea.selectionStart === this.textArea.selectionEnd) this.cursor = this.textArea.selectionEnd;
+    // });
+
+    // this.textArea.addEventListener("focusout", () => {
+    //   this.textAreaFocus = false;
+    //   console.log(`textAreaFocus = ${this.textAreaFocus }`);
+    //   console.log(`text area NOT focused this.textArea.selectionEnd = ${this.textArea.selectionEnd}`);
+    //   this.cursor = this.textArea.selectionEnd;
+    //   //if (this.textArea.selectionStart === this.textArea.selectionEnd) this.cursor = this.textArea.selectionEnd;
+    // });
+    this.textArea.onclick = () => {
+      console.log(`textArea onclick = ${this.textArea.selectionEnd}`);
+      this.cursor = this.textArea.selectionEnd;
+      // setTimeout(()=>{
+        
+      //   console.log(`this.cursor = ${this.cursor }`);
+      // }, 100);
+    }
+    //this.textArea.addEventListener("blur", () => form.classList.remove('focused'), true);
+
+    
     return this.keysList;
   }
 
@@ -110,7 +140,6 @@ class KeyBoard {
     htmlButton.className = 'visual-keyboard__button';
     htmlButton.id = `${id}`;
     htmlButton.innerText = `${value}`;
-    console.log(id);
 
     htmlButton.addEventListener('mousedown', () => {
       this.buttonMouseDownHandler(htmlButton);
@@ -165,6 +194,7 @@ class KeyBoard {
       }
     }
   }
+  
 
   capsButtons() {
     for (const k in this.keysList) {
@@ -193,7 +223,7 @@ class KeyBoard {
   buttonMouseDownHandler(htmlButton) {
     if (`${htmlButton.id}` in this.keysList) {
       const entiresBtn = this.keysList[htmlButton.id];
-      console.log(`type = ${entiresBtn.type} html value = '${htmlButton.innerText}' btn value = '${entiresBtn.value}' code button = ${htmlButton.id}`);
+      //console.log(`type = ${entiresBtn.type} html value = '${htmlButton.innerText}' btn value = '${entiresBtn.value}' code button = ${htmlButton.id}`);
       this.buttonPressDownHandler(htmlButton.id);
       htmlButton.addEventListener('mouseleave', () => {
         this.buttonMouseUpHandler(htmlButton);
@@ -210,6 +240,7 @@ class KeyBoard {
   }
 
   buttonPressDownHandler(btn) {
+
     if (`${btn}` in this.keysList) { // Functionality key
       if (this.keysList[btn].type === 'func') {
         if (!this.isShiftPressed && (btn === 'ShiftLeft' || btn === 'ShiftRight')) {
@@ -235,13 +266,24 @@ class KeyBoard {
         }
       } else if (this.keysList[btn].type !== 'func') { // Default key:
         this.setActiveState(true, btn);
-        this.input += this.keysList[btn].value;
-        this.textArea.textContent = this.input;
-        console.log(this.input);
+        //this.getCursorPosition();
+        // this.textArea.focus();
+        let outputCharArr;
+        outputCharArr = this.input.split('');
+        outputCharArr.splice(this.cursor, 0, this.keysList[btn].value)
+        this.input = outputCharArr.join('');
+        
+        //this.input += this.keysList[btn].value;
+        setTimeout(()=>{
+          this.cursor++;
+          this.textArea.value = this.input;
+        }, 10);
+        
+        //console.log(this.input);
       }
 
       if (this.isCtrlPressed && this.isAltPressed) {
-        console.log(`change lang! ${btn}`);
+        //console.log(`change lang! ${btn}`);
         this.changeLang();
       }
     }
@@ -284,13 +326,15 @@ document.addEventListener('keydown', (event) => {
   if (code === 'Tab'
   || code === 'Backspace'
   || code === 'AltRight'
+  || code === 'AltLeft'
+  || code === 'ArrowRight'
   || code === 'ArrowLeft'
   || code === 'ArrowDown'
   || code === 'ArrowUp') {
     event.preventDefault();
   }
   keyBoard.buttonKeyDownHandler(code);
-  console.log(`!! pressed btn = ${code}`);
+  //console.log(`!! pressed btn = ${code}`);
 });
 
 document.addEventListener('keyup', (event) => {

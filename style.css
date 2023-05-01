@@ -45,6 +45,7 @@ button {
   margin: 1px;
   align-self: center;
   flex-grow: 1;
+ 
 }
 
 .visual-keyboard__button {
@@ -52,11 +53,16 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: antiquewhite;
-  transition: all 0.5s ease;
+  background-color: rgba(255, 195, 117, 0.392);
+  border-style: double;
+  border-radius: 0rem;
+  transition: all 0.25s ease;
 }
 
 .visual-keyboard__button_active {
+  height: 40px;
+  width:  40px;
+  border-radius: 1rem;
   background-color: rgb(245, 97, 97);
 }
 
@@ -65,7 +71,8 @@ button {
 }
 
 .visual-keyboard__button:active {
-  background-color: rgb(250, 149, 149);
+  border-radius: 1rem;
+  background-color: rgb(245, 97, 97);
 }
 
 img {
