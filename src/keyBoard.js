@@ -158,9 +158,11 @@ export default class KeyBoard {
   buttonMouseDownHandler(htmlButton) {
     if (`${htmlButton.id}` in this.keysList) {
       this.buttonPressDownHandler(htmlButton.id);
-      htmlButton.addEventListener('mouseleave', () => {
-        this.buttonMouseUpHandler(htmlButton);
-      });
+      if (!(/shift/i).test(htmlButton.id)) {
+        htmlButton.addEventListener('mouseleave', () => {
+          this.buttonMouseUpHandler(htmlButton);
+        });
+      }
     }
   }
 

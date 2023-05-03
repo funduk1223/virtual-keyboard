@@ -35,9 +35,11 @@ function app() {
     const { code } = event;
     if (code === 'Tab'
     || code === 'Backspace'
+    || code === 'MetaLeft'
     || (/alt/i).test(code)
     || (/arrow/i).test(code)
-    || (/num/i).test(code)) {
+    || (/num/i).test(code)
+    || (/control/i).test(code)) {
       event.preventDefault();
     }
     keyBoard.buttonKeyDownHandler(code);
