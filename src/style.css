@@ -1,0 +1,159 @@
+* {
+  margin: 0;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 1.05rem;
+  font-style: normal;
+  font-weight: bolder;
+}
+
+html, body {
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.wrapper {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 70%;
+  margin: auto;
+}
+
+textarea {
+  tab-size: 4;
+  display: flex;
+  align-self: center;
+  width: clamp(400px, 50%, 800px);
+  height: 300px;
+}
+
+
+.virtual-keyboard {
+  display: flex;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 1rem;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content:  space-between;
+  align-items: center;
+  width: clamp(400px, 50%, 800px);
+  height: 300px;
+  background-color: #5EC4CD;
+}
+
+.virtual-keyboard__row {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+button {
+  height: 50px;
+  width:  50px;
+  margin: 1px;
+  align-self: center;
+  flex-grow: 1;
+  
+}
+p {
+  text-align: center;
+}
+
+.virtual-keyboard__button {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2a585c;
+  border-style: none;
+  border-radius: 0.2rem;
+  transition: all 0.25s ease;
+  color:rgb(213, 213, 213);
+}
+
+.virtual-keyboard__button_active {
+  height: 40px;
+  width:  40px;
+  border-radius: 0.5rem;
+  background-color: rgb(226, 214, 112);
+}
+
+.virtual-keyboard__button:hover {
+  background-color: rgb(190, 255, 182);
+  color: rgb(77, 77, 77);
+}
+
+.virtual-keyboard__button:active {
+  border-radius: 0.5rem;
+  background-color: rgb(245, 97, 97);
+}
+
+img {
+  width: clamp(8px, 100%, 32px);
+  height: clamp(8px, 100%, 32px);
+  background-color: none;
+}
+
+#Backspace {
+  flex-grow: 4;
+  background-image: url("../media/icon/backspace-white.svg");
+  background-size: clamp(8px, 100%, 20px);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#Backspace:hover {
+  background-image: url("../media/icon/backspace-black.svg");
+}
+#Enter {
+  flex-grow: 4;
+  background-image: url("../media/icon/arrow-enter-white.svg");
+  background-size: clamp(8px, 100%, 20px);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#Enter:hover {
+  background-image: url("../media/icon/arrow-enter-black.svg");
+}
+#Space {
+  width: 40%;
+  background-size: clamp(8px, 100%, 20px);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#Tab {
+  flex-grow: 2;
+  background-image: url("../media/icon/tab-white.svg");
+  background-size: clamp(8px, 100%, 20px);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#Tab:hover {
+  background-image: url("../media/icon/tab-black.svg");
+}
+#CapsLock {
+  flex-grow: 4;
+  width: clamp(8px, 100%, 80px);
+  background-image: url("../media/icon/capslock-white.svg");
+  background-size: clamp(8px, 100%, 20px);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#CapsLock:hover {  
+  background-image: url("../media/icon/capslock-black.svg");
+}
+#ShiftRight,
+#ShiftLeft {
+  flex-grow: 4;
+  width: clamp(8px, 100%, 100px);
+  background-repeat: no-repeat;
+  background-position: center;
+}
